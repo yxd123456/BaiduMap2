@@ -10,6 +10,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.GroundOverlayOptions;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.LogoPosition;
 import com.baidu.mapapi.map.MapView;
@@ -20,6 +21,7 @@ import com.baidu.mapapi.map.PolygonOptions;
 import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,6 +148,26 @@ public class MainActivity extends AppCompatActivity {
         InfoWindow mInfoWindow = new InfoWindow(button, pt, -47);
         //显示InfoWindow
         mBaiduMap.showInfoWindow(mInfoWindow);
+
+        /**
+         * 地形图图层
+         */
+        LatLng southwest = new LatLng(39.92235, 116.380338);
+        LatLng northeast = new LatLng(39.947246, 116.414977);
+        LatLngBounds bounds = new LatLngBounds.Builder()
+                .include(northeast)
+                .include(southwest)
+                .build();
+//定义Ground显示的图片
+        BitmapDescriptor bdGround = BitmapDescriptorFactory
+                .fromResource(R.mipmap.ic_launcher);
+//定义Ground覆盖物选项
+        OverlayOptions ooGround = new GroundOverlayOptions()
+                .positionFromBounds(bounds)
+                .image(bdGround)
+                .transparency(0.8f);
+//在地图中添加Ground覆盖物
+        mBaiduMap.addOverlay(ooGround);
 
     }
 
